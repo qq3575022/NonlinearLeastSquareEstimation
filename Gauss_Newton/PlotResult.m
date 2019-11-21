@@ -72,7 +72,7 @@ y(:,l) = getyNP(r1f,r2f,r3f,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N
 for iter = 1:1:iternumPos
@@ -99,12 +99,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -173,7 +176,7 @@ y(:,l) = getyNP(r1f,r2f,r3f,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N
 for iter = 1:1:iternumPos
@@ -200,12 +203,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -271,7 +277,7 @@ y(:,l) = getyNP(r1f,r2f,r3f,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N
 for iter = 1:1:iternumPos
@@ -298,12 +304,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -329,7 +338,7 @@ y(:,l) = getyNPV(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -357,12 +366,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -413,7 +425,7 @@ y(:,l) = getyNPV(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -441,12 +453,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -498,7 +513,7 @@ y(:,l) = getyNPV(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
 for iter = 1:1:iternum
@@ -525,12 +540,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -556,7 +574,7 @@ y(:,l) = getyNPAO(r1f,r2f,r3f,phi(1,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -584,14 +602,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -684,7 +703,7 @@ y(:,l) = getyNPAO(r1f,r2f,r3f,phi(1,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -712,14 +731,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -811,7 +831,7 @@ y(:,l) = getyNPAO(r1f,r2f,r3f,phi(1,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -839,15 +859,16 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
-
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
+ 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
 
@@ -871,7 +892,7 @@ y(:,l) = getyNPA(r1f,r2f,r3f,phi(1,:),phi(2,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
 for iter = 1:1:iternum
@@ -898,14 +919,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -994,7 +1016,7 @@ y(:,l) = getyNPA(r1f,r2f,r3f,phi(1,:),phi(2,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
 for iter = 1:1:iternum
@@ -1021,15 +1043,16 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
-
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
+ 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
 
@@ -1119,7 +1142,7 @@ y(:,l) = getyNPA(r1f,r2f,r3f,phi(1,:),phi(2,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
 for iter = 1:1:iternum
@@ -1146,14 +1169,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1180,7 +1204,7 @@ y(:,l) = getyNPVAO(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),AXY(1,:),AXY(2,:
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -1208,14 +1232,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1308,7 +1333,7 @@ y(:,l) = getyNPVAO(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),AXY(1,:),AXY(2,:
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -1336,14 +1361,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1436,7 +1462,7 @@ y(:,l) = getyNPVAO(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),AXY(1,:),AXY(2,:
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -1467,14 +1493,15 @@ errormeasx = x_meas(1,N+1:length(tf))-XX(1,N+1:length(tf));
 errormeasy = x_meas(4,N+1:length(tf))-XX(4,N+1:length(tf)); 
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1500,7 +1527,7 @@ y(:,l) = getyNPVA(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),phi(2,:),AXY(1,:)
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -1528,14 +1555,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1628,7 +1656,7 @@ y(:,l) = getyNPVA(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),phi(2,:),AXY(1,:)
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -1656,14 +1684,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1682,7 +1711,7 @@ y(:,l) = getyNPVA(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),phi(2,:),AXY(1,:)
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
@@ -1710,14 +1739,15 @@ end
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 

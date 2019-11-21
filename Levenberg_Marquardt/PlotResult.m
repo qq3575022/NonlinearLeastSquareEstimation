@@ -61,6 +61,7 @@ legend('estimated r','estimated r rdot','estimated r acc $\phi$','estimated r ac
 %meanrr
 %stdrr
 fprintf('===================== R =======================')
+global N
 N = xr
 
 % Simulated instantaneous trilateration y
@@ -72,39 +73,23 @@ y(:,l) = getyNP(r1f,r2f,r3f,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
+global m
 for m = 1:1:length(tf)-N
-for iter = 1:1:iternumPos
-    
-E = getEP(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,1);
-add = JacoN\E;
-
-temp = x(:,m) - time_stepPos*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEP(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_stepPos*add;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEP(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -161,7 +146,7 @@ plot(tf(N+1:length(tf)),x(5,:),'LineWidth',2);hold on;%estimate
 plot(tf(N+1:length(tf)),XX(5,N+1:length(tf)),'LineWidth',2);hold on,
 plot(tf(N+1:length(tf)),-2*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2)
 ylabel('$\dot y[m]$','interpreter','latex');
-legend('estimated','ground truth','initialization');title('Velocity y');xlabel('t [s]')
+legend({'estimated','ground truth','initialization'},'Location','NorthEast');title('Velocity y');xlabel('t [s]')
 
 N = yr
 % Simulated instantaneous trilateration y
@@ -173,39 +158,22 @@ y(:,l) = getyNP(r1f,r2f,r3f,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N
-for iter = 1:1:iternumPos
-    
-E = getEP(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,1);
-add = JacoN\E;
-
-temp = x(:,m) - time_stepPos*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEP(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_stepPos*add;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEP(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -271,39 +239,22 @@ y(:,l) = getyNP(r1f,r2f,r3f,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N
-for iter = 1:1:iternumPos
-    
-E = getEP(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,1);
-add = JacoN\E;
-
-temp = x(:,m) - time_stepPos*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEP(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_stepPos*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEP(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -329,40 +280,22 @@ y(:,l) = getyNPV(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
-    
-for iter = 1:1:iternum
- 
-E = getEPV(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,2);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPV(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPV(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -371,7 +304,7 @@ fprintf('---------------min error estimation----------------')
 error_matricsestxRR(1,:)  = [sqrt(mean(errorestx)^2+mean(erroresty)^2), sqrt(var(errorestx)^2+var(erroresty)^2),sqrt(var(errorestx)+var(erroresty))]
 error_matricsestyRRx(1,:)  = [mean(errorestx), var(errorestx),sqrt(var(errorestx))]
 error_matricsestyRRy(1,:)  = [mean(erroresty), var(erroresty),sqrt(var(erroresty))]
-
+%%
 % Plot error
 figure
 subplot(4,1,1),
@@ -380,14 +313,14 @@ plot(tf(N+1:length(tf)),x(1,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(1,N+1:length(tf)),'LineWidth',2);hold on,
 plot(tf(N+1:length(tf)),1.5*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
 ylabel('$x[m]$','interpreter','latex');
-legend('instantaneous trilateration','estimated','ground truth','initialization');title('Position x')
+legend({'Instantaneous trilateration','Estimated','Ground truth','Initialization'},'Location','SouthEast');title('Position $x$','interpreter','latex');xlabel('t[s]')
 
 subplot(4,1,2),
 plot(tf(N+1:length(tf)),x(2,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(2,N+1:length(tf)),'LineWidth',2);
 ylabel('$\dot x[m/s]$','interpreter','latex');hold on,
 plot(tf(N+1:length(tf)),-2*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
-legend('estimated','ground truth','initialization');title('Velocity x')
+legend('Estimated','Ground truth','Initialization');title('Velocity $\dot x$','interpreter','latex');xlabel('t[s]')
 
 subplot(4,1,3),
 plot(tf(N+1:length(tf)),x_meas(4,N+1:length(tf)),'LineWidth',2); hold on; 
@@ -395,15 +328,16 @@ plot(tf(N+1:length(tf)),x(4,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(4,N+1:length(tf)),'LineWidth',2);
 ylabel('$y[m]$','interpreter','latex');hold on,
 plot(tf(N+1:length(tf)),ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
-legend('instantaneous trilateration','estimated','ground truth','initialization');title('Position y')
+legend({'Instantaneous trilateration','Estimated','Ground truth','Initialization'},'Location','SouthEast');title('Position $y$','interpreter','latex');xlabel('t[s]')
 
 subplot(4,1,4),
 plot(tf(N+1:length(tf)),x(5,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(5,N+1:length(tf)),'LineWidth',2);
 ylabel('$\dot y[m/s]$','interpreter','latex');hold on,
 plot(tf(N+1:length(tf)),-2*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
-legend('estimated','ground truth','initialization');title('Velocity y');xlabel('tf [s]')
+legend('Estimated','Ground truth','Initialization');title('Velocity $\dot y$','interpreter','latex');xlabel('t[s]')
 
+%%
 N = yr
 % Simulated instantaneous trilateration y
 y = NaN(6*N,length(tf)-N);
@@ -413,40 +347,23 @@ y(:,l) = getyNPV(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
- 
-E = getEPV(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,2);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPV(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPV(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -498,39 +415,22 @@ y(:,l) = getyNPV(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
-for iter = 1:1:iternum
- 
-E = getEPV(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,2);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPV(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPV(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0;
-     0,1,T,0,0,0;
-     0,0,1,0,0,0;
-     0,0,0,1,T,0;
-     0,0,0,0,1,T;
-     0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -556,42 +456,23 @@ y(:,l) = getyNPAO(r1f,r2f,r3f,phi(1,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
-    
-E = getEPAO(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,6);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPAO(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPAO(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -684,42 +565,23 @@ y(:,l) = getyNPAO(r1f,r2f,r3f,phi(1,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
-    
-E = getEPAO(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,6);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPAO(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPAO(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -811,42 +673,23 @@ y(:,l) = getyNPAO(r1f,r2f,r3f,phi(1,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
-    
-E = getEPAO(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,6);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPAO(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPAO(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -871,41 +714,22 @@ y(:,l) = getyNPA(r1f,r2f,r3f,phi(1,:),phi(2,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
-for iter = 1:1:iternum
- 
-E = getEPA(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,3);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPA(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPA(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -994,41 +818,22 @@ y(:,l) = getyNPA(r1f,r2f,r3f,phi(1,:),phi(2,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
-for iter = 1:1:iternum
- 
-E = getEPA(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,3);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPA(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPA(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1119,41 +924,22 @@ y(:,l) = getyNPA(r1f,r2f,r3f,phi(1,:),phi(2,:),AXY(1,:),AXY(2,:),l,N);
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
-for iter = 1:1:iternum
- 
-E = getEPA(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,3);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPA(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPA(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1180,42 +966,23 @@ y(:,l) = getyNPVAO(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),AXY(1,:),AXY(2,:
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
-    
-E = getEPVAO(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,5);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPVAO(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPVAO(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1308,42 +1075,23 @@ y(:,l) = getyNPVAO(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),AXY(1,:),AXY(2,:
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
-    
-E = getEPVAO(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,5);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPVAO(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPVAO(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1436,45 +1184,26 @@ y(:,l) = getyNPVAO(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),AXY(1,:),AXY(2,:
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
-    
-E = getEPVAO(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,5);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPVAO(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPVAO(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 errormeasx = x_meas(1,N+1:length(tf))-XX(1,N+1:length(tf)); 
 errormeasy = x_meas(4,N+1:length(tf))-XX(4,N+1:length(tf)); 
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1500,42 +1229,23 @@ y(:,l) = getyNPVA(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),phi(2,:),AXY(1,:)
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
-    
-E = getEPVA(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,4);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPVA(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPVA(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1553,7 +1263,7 @@ error_matricsestRRAy(1,:)  = [mean(erroresty), var(erroresty),sqrt(var(erroresty
 % figure
 % subplot(2,1,1),plot(tf(N+1:length(tf)), errormeasy),xlabel('time [s]'),ylabel('error [m]'),title('instantaneous trilateration error y'),legend('instantaneous trilateration error y')
 % subplot(2,1,2),plot(tf(N+1:length(tf)), erroresty), xlabel('time [s]'),ylabel('error [m]'),title('estimated error y'),legend('estimated error y')
-
+%%
 % Estimation Results
 figure
 subplot(8,1,1),
@@ -1562,14 +1272,16 @@ plot(tf(N+1:length(tf)),x(1,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(1,N+1:length(tf)),'LineWidth',2);hold on,
 plot(tf(N+1:length(tf)),1.5*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
 ylabel('$x[m]$','interpreter','latex');
-legend('instantaneous trilateration','estimated','ground truth','initialization');title('Position x')
+xlim([0, 2.5]);xlabel('t [s]')
+legend('Instantaneous trilateration','Estimated','Ground truth','Initialization');title('Position $x$','interpreter','latex')
 
 subplot(8,1,2),
 plot(tf(N+1:length(tf)),x(2,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(2,N+1:length(tf)),'LineWidth',2);hold on,
 plot(tf(N+1:length(tf)),-2*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
 ylabel('$\dot x$[m/s]','interpreter','latex');
-legend('estimated','ground truth','initialization');title('Velocity x')
+xlim([0, 2.3]);;xlabel('t [s]')
+legend('Estimated','Ground truth','Initialization');title('Velocity $\dot x$','interpreter','latex')
 
 subplot(8,1,3),
 plot(tf(N+1:length(tf)),A(1,N+1:length(tf)),'LineWidth',2);hold on;
@@ -1577,7 +1289,8 @@ plot(tf(N+1:length(tf)),x(3,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(3,N+1:length(tf)),'LineWidth',2);hold on,%XX(3,N+1:length(tf))
 plot(tf(N+1:length(tf)),0*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
 ylabel('$\ddot x[m/s^2]$','interpreter','latex');
-legend('instantaneous trilateration','estimated','ground truth','initialization');title('Acceleration x')
+xlim([0, 2.5]);;xlabel('t [s]')
+legend('Instantaneous trilateration','Estimated','Ground truth','Initialization');title('Acceleration $\ddot x$','interpreter','latex')
 
 subplot(8,1,4),
 plot(tf(N+1:length(tf)),x_meas(4,N+1:length(tf)),'LineWidth',2); hold on; 
@@ -1585,14 +1298,16 @@ plot(tf(N+1:length(tf)),x(4,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(4,N+1:length(tf)),'LineWidth',2);hold on,
 plot(tf(N+1:length(tf)),ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
 ylabel('$y[m]$','interpreter','latex');
-legend('instantaneous trilateration','estimated','ground truth','initialization');title('Position y')
+xlim([0, 2.5]);
+legend('Instantaneous trilateration','Estimated','Ground truth','Initialization');title('Position $y$','interpreter','latex');xlabel('t [s]')
 
 subplot(8,1,5),
 plot(tf(N+1:length(tf)),x(5,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(5,N+1:length(tf)),'LineWidth',2);hold on,
 plot(tf(N+1:length(tf)),-2*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
 ylabel('$\dot y$[m/s]','interpreter','latex');
-legend('estimated','ground truth','initialization');title('Velocity y');xlabel('tf [s]')
+xlim([0, 2.3]);
+legend('Estimated','Ground truth','Initialization');title('Velocity $\dot y$','interpreter','latex');xlabel('t [s]')
 
 subplot(8,1,6),
 plot(tf(N+1:length(tf)),A(2,N+1:length(tf)),'LineWidth',2);hold on;
@@ -1600,25 +1315,28 @@ plot(tf(N+1:length(tf)),x(6,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),XX(6,N+1:length(tf)),'LineWidth',2);hold on,
 plot(tf(N+1:length(tf)),0*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);%XX(6,N+1:length(tf))
 ylabel('$\ddot y[m/s^2]$','interpreter','latex');
-legend('instantaneous trilateration','estimated','ground truth','initialization');title('Acceleration y');xlabel('tf [s]')
+xlim([0, 2.5]);
+legend('Instantaneous trilateration','Estimated','Ground truth','Initialization');title('Acceleration $\ddot y$','interpreter','latex');xlabel('t [s]')
 
 subplot(8,1,7),
 plot(tf(N+1:length(tf)),phi(1,N+1:length(tf)),'LineWidth',2);hold on,
 plot(tf(N+1:length(tf)),x(7,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),W(1,N+1:length(tf)),'LineWidth',2);hold on,%XX(3,N+1:length(tf))
-plot(tf(N+1:length(tf)),0*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
-ylabel('$\ddot x[m/s^2]$','interpreter','latex');
-legend('meas','estimated','ground truth','initialization');title('Orientation')
+plot(tf(N+1:length(tf)),0*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);xlabel('t [s]')
+ylabel('$\psi[rad]$','interpreter','latex');
+xlim([0, 2.2]);
+legend('Measurement \theta_z','Estimated','Ground truth','Initialization');title('Orientation $\psi$','interpreter','latex')
 
 subplot(8,1,8),
 plot(tf(N+1:length(tf)),phi(2,N+1:length(tf)),'LineWidth',2);hold on,%XX(3,N+1:length(tf))
 plot(tf(N+1:length(tf)),x(8,:),'LineWidth',2);hold on;
 plot(tf(N+1:length(tf)),W_V(1,N+1:length(tf)),'LineWidth',2);hold on,%XX(3,N+1:length(tf))
 plot(tf(N+1:length(tf)),0*ones(1,length(tf)-N),'Color',[0.4940 0.1840 0.5560],'LineStyle',':','LineWidth',2);
-ylabel('$\ddot x[m/s^2]$','interpreter','latex');
-legend('meas','estimated','ground truth','initialization');title('Angular Velocity')
+ylabel('$\dot \psi[rad/s]$','interpreter','latex');
+xlim([0, 2.2]);xlabel('t [s]')
+legend('Measurement \omega_z','Estimated','Ground truth','Initialization');title('Angular Velocity $\dot \psi$','interpreter','latex')
 
-%
+%%
 N = yr
 y = NaN(N*10,length(tf)-N);
 
@@ -1628,42 +1346,23 @@ y(:,l) = getyNPVA(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),phi(2,:),AXY(1,:)
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
-    
-E = getEPVA(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,4);
-add = JacoN\E;
-
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPVA(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPVA(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1682,42 +1381,23 @@ y(:,l) = getyNPVA(r1f,r1dot_e,r2f,r2dot_e,r3f,r3dot_e,phi(1,:),phi(2,:),AXY(1,:)
 end
 
 % Initiate x, e and temproary variable
-x = [1.5;-2;0;1;-2;0;3;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
+x = [1.5;-2;0;1;-2;0;3;0;0]*ones(1,length(tf)-N);e = NaN(1,length(tf)-N);
 
 for m = 1:1:length(tf)-N %time 1 t
     
-for iter = 1:1:iternum
-    
-E = getEPVA(y(:,m),x(:,m),N);
-orig = norm(E);
-
-JacoN = getJacoN(y(:,m),x(:,m),N,4);
-add = JacoN\E;
-k = rank(JacoN)
-temp = x(:,m) - time_step*add;%x - 0.5.*pinv(JacoN)*E
-
-E_temp = getEPVA(y(:,m),temp,N);
-after = norm(E_temp);
-
-if norm(E_temp) < norm(E)
-    x(:,m) = x(:,m) - time_step*pinv(JacoN)*E;
-else
-    e(m) = norm(E_temp);
-    break
-end
-
-end
+x(:,m)=lsqnonlin(@(xx)getEPVA(y(:,m), xx, N),[1.5;-2;0;1;-2;0;3;0;0]);
 end
 
 % Get F^(N-1)*x
-x = [1,T,0,0,0,0,0,0;
-     0,1,T,0,0,0,0,0;
-     0,0,1,0,0,0,0,0;
-     0,0,0,1,T,0,0,0;
-     0,0,0,0,1,T,0,0;
-     0,0,0,0,0,1,0,0;
-     0,0,0,0,0,0,1,T;
-     0,0,0,0,0,0,0,1]^(N-1)*x;
+x = [1,T,0,0,0,0,0,0,0;
+     0,1,T,0,0,0,0,0,0;
+     0,0,1,0,0,0,0,0,0;
+     0,0,0,1,T,0,0,0,0;
+     0,0,0,0,1,T,0,0,0;
+     0,0,0,0,0,1,0,0,0;
+     0,0,0,0,0,0,1,T,0;
+     0,0,0,0,0,0,0,1,T;
+     0,0,0,0,0,0,0,0,1]^(N-1)*x;
 
 % Get estimation error
 errorestx = x(1,:)-XX(1,N+1:length(tf)); erroresty = x(4,:)-XX(4,N+1:length(tf)); 
@@ -1726,4 +1406,3 @@ fprintf('------------ N = 10 estimation -------------------')
 error_matricsestRRA(3,:)  = [sqrt(mean(errorestx)^2+mean(erroresty)^2), sqrt(var(errorestx)^2+var(erroresty)^2),sqrt(var(errorestx)+var(erroresty))]
 error_matricsestRRAx(3,:)  = [mean(errorestx), var(errorestx),sqrt(var(errorestx))]
 error_matricsestRRAy(3,:)  = [mean(erroresty), var(erroresty),sqrt(var(erroresty))]
-
